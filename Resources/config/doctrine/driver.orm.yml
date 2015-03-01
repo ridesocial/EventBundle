@@ -1,0 +1,55 @@
+\Volleyball\Bundle\EventBundle\Entity\Driver:
+    type: entity
+    table: driver
+    id:
+        id:
+            type: integer
+            generator: 
+            strategy: AUTO
+    fields:
+        reservedSeats:
+            type: integer
+        createdAt:
+            type: date
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        slug:
+            type: string
+            length: 128
+            gedmo:
+                slug:
+                    fields:
+                        - user
+                        - event
+    indexes:
+        search_idx:
+            columns: slug
+    ManyToOne:
+        event:
+            targetEntity: \RideSocial\Bundle\EventBundle\Entity\Event
+            inversedBy: drivers
+            joinColumn: 
+                name: event_id
+                referencedColumnName: id
+        user:
+            targetEntity: \RideSocial\Bundle\UserBundle\Entity\User
+            inversedBy: drivers
+            joinColumn: 
+                name: user_id
+                referencedColumnName: id
+        vehicle:
+            targetEntity: \RideSocial\Bundle\VehicleBundle\Entity\Vehicle
+            inversedBy: drivers
+            joinColumn: 
+                name: vehicle_id
+                referencedColumnName: id
+    OneToMany:
+        passengers:
+            targetEntity: \RideSocial\Bundle\EventBundle\Entity\Passenger
+            mappedBy: driver

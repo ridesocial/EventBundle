@@ -1,0 +1,42 @@
+ridesocial_passenger_index:
+    path: /passengers/{page}
+    defaults: { _controller: RideSocialEventBundle:Passenger:index, page: 1 }
+    requirements:
+        page: \d+
+ridesocial_passenger_edit:
+    path: /passengers/{slug}/edit
+    defaults: { _controller: RideSocialEventBundle:Passenger:edit }
+ridesocial_passenger_show:
+    path: /passengers/{slug}
+    defaults: { _controller: RideSocialEventBundle:Passenger:show }
+ridesocial_passenger_new:
+    path: /passengers/new
+    defaults: { _controller: RideSocialEventBundle:Passenger:new }
+ridesocial_passenger_index_by_driver:
+    path: /drivers/{slug}/passengers/{page}
+    defaults: { _controller: RideSocialEventBundle:Passenger:index, page: 1 }
+    requirements:
+        page: \d+
+ridesocial_passenger_index_by_driver_event:
+    path: /events/{event_slug}/drivers/{driver_slug}/passengers/{page}
+    defaults: { _controller: RideSocialEventBundle:Passenger:index, page: 1 }
+    requirements:
+        page: \d+
+ridesocial_passenger_edit_by_driver:
+    path: /drivers/{driver_slug}/passengers/{passenger_slug}/edit
+    defaults: { _controller: RideSocialEventBundle:Passenger:edit }
+ridesocial_passenger_edit_by_driver_event:
+    path: /events/{event_slug}/drivers/{driver_slug}/passengers/{passenger_slug}/edit
+    defaults: { _controller: RideSocialEventBundle:Passenger:edit }
+ridesocial_passenger_show_by_driver:
+    path: /drivers/{driver_slug}/passengers/{passenger_slug}
+    defaults: { _controller: RideSocialEventBundle:Passenger:show }
+ridesocial_passenger_show_by_driver_event:
+    path: /events/{event_slug}/drivers/{driver_slug}/passengers/{passenger_slug}
+    defaults: { _controller: RideSocialEventBundle:Passenger:show }
+ridesocial_passenger_new_by_driver:
+    path: /drivers/{slug}/passenger/new
+    defaults: { _controller: RideSocialEventBundle:Passenger:new }
+ridesocial_passenger_new_driver_event:
+    path: /events/{event_slug}/drivers/{driver_slug}/passengers/new
+    defaults: { _controller: RideSocialEventBundle:Passenger:new }

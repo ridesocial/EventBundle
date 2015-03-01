@@ -1,0 +1,25 @@
+ridesocial_driver_index:
+    path: /drivers/{page}
+    defaults: { _controller: RideSocialEventBundle:Driver:index, page: 1 }
+    requirements:
+        page: \d+
+ridesocial_driver_edit:
+    path: /drivers/{slug}/edit
+    defaults: { _controller: RideSocialEventBundle:Driver:edit }
+ridesocial_driver_show:
+    path: /drivers/{slug}
+    defaults: { _controller: RideSocialEventBundle:Driver:show }
+ridesocial_driver_new:
+    path: /drivers/new
+    defaults: { _controller: RideSocialEventBundle:Driver:new }
+ridesocial_driver_index_by_event:
+    path: /events/{slug}/drivers/{page}
+    defaults: { _controller: RideSocialEventBundle:Driver:index, page: 1 }
+    requirements:
+        page: \d+
+ridesocial_driver_show_by_event:
+    path: /events/{event_slug}/drivers/{driver_slug}
+    defaults: { _controller: RideSocialEventBundle:Driver:show }
+ridesocial_driver_new_by_event:
+    path: /events/{slug}/drivers/new
+    defaults: { _controller: RideSocialEventBundle:Driver:new }

@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="col-md-8">
+        <div class="row">
+            <h1>{{ event.name | title }}</h1>
+            <p>{{ event.description }}</p>
+        </div>
+        <div class="row">
+            <div id="passenger" class="col-md-4"></div>
+            <div id="driver" class="col-md-4"></div>
+            <div id="attendee" class="col-md-4"></div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <div id="map"></div>
+        </div>
+        <div class="row">
+            <ul class="details">
+                <li>venue</li>
+                <li>address</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" role="tab" data-toggle="tab">home</a></li>
+        
+        </ul>
+    </div>
+</div>

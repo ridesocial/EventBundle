@@ -1,0 +1,59 @@
+\Volleyball\Bundle\EventBundle\Entity\Event:
+    type: entity
+    table: event
+    indexes:
+        name_index:
+            columns: [name]
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name: 
+            type: string
+        description:
+            type: string
+            nullable: true
+        start:
+            type: datetime
+        end:
+            type: datetime
+            nullable: true
+        fee:
+            type: float(2)
+        flyer:
+            type: string
+            nullable: true
+        createdAt:
+            type: date
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: date
+            gedmo:
+                timestampable:
+                    on: udpate
+        createdBy:
+            type: string
+            gedmo:
+                blameable:
+                    on: create
+        updatedBy:
+            type: string
+            gedmo:
+                blameable:
+                    on: update
+        slug:
+            type: string
+            gedmo:
+                slug:
+                    - name
+    ManyToOne:
+        venue:
+            targetEntity: \RideSocial\Bundle\LocationBundle\Entity\Venue
+            inversedBy: events
+            joinColumn:
+                name: venue_id
+                referencedColumnName: id

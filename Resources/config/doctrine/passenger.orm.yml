@@ -1,0 +1,42 @@
+\RideSocial\Bundle\EventBundle\Entity\Passenger:
+    type: entity
+    table: passenger
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        confirmed:
+            type: boolean
+        createdAt:
+            type: date
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        slug:
+            type: string
+            length: 128
+            gedmo:
+                slug:
+                    fields:
+                        - driver
+                        - user
+    ManyToOne:
+        user:
+            targetEntity: \RideSocial\Bundle\UserBundle\Entity\User
+            inversedBy: passengers
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+        driver:
+            targetEntity: \RideSocial\Bundle\EventBundle\Entity\Driver
+            inversedBy: passengers
+            joinColumn:
+                name: driver_id
+                referencedColumnName: id

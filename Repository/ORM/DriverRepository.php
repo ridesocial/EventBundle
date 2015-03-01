@@ -1,7 +1,7 @@
 <?php
 namespace RideSocial\Bundle\EventBundle\Repository\ORM;
 
-class DriverRepository
+class DriverRepository extends \Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
 {
 
 }

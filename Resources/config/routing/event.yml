@@ -1,0 +1,15 @@
+# Event
+ridesocial_event_index:
+    path: /events/{page}
+    defaults: { _controller: RideSocialEventBundle:Event:index, page: 1 }
+    requirements:
+        page: \d+
+ridesocial_event_edit:
+    path: /events/{slug}/edit
+    defaults: { _controller: RideSocialEventBundle:Event:edit }
+ridesocial_event_show:
+    path: /events/{slug}
+    defaults: { _controller: RideSocialEventBundle:Event:show }
+ridesocial_event_new:
+    path: /events/new
+    defaults: { _controller: RideSocialEventBundle:Event:new }

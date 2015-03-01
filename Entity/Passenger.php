@@ -1,107 +1,132 @@
 <?php
 namespace RideSocial\Bundle\EventBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
+use \RideSocial\Bundle\CoreBundle\Traits\ORM\TimestampableTrait;
+use \RideSocial\Bundle\CoreBundle\Traits\ORM\SluggableTrait;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="passenger")
- * @ORM\Entity(repositoryClass="RideSocial\Bundle\EventBundle\Repository\ORM\PassengerRepository")
- */
-class Passenger extends RideSocial\Component\Event\Model\Passenger
+class Passenger
 {
-    use RideSocial\Bundle\CoreBundle\Traits\ORM\SluggableTrait;
-    use RideSocial\Bundle\CoreBundle\Traits\ORM\TimestampableTrait;
+    use TimestampableTrait;
+    use SluggableTrait;
     
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-    */
+     * Id
+     * @var integer
+     */
     protected $id;
+    
+    /**
+     * User
+     * @var \RideSocial\Bundle\USerBundle\Entity\User
+     */
+    protected $user;
+    
+    /**
+     * Driver
+     * @var \RideSocial\Bundle\EventBundle\Entity\Driver
+     */
+    protected $driver;
+    
+    /**
+     * Confirmed
+     * @var boolean
+     */
+    protected $confirmed;
 
     /**
+     * Construct
+     */
+    public function __construct()
+    {
+        $this->reservedSeats = 1;
+        $this->passengers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
      * Get id
-     *
      * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-
+    
     /**
-     * @{inheritdoc}
-     * @ORM\ManyToOne(targetEntity="RideSocial\Bundle\UserBundle\Entity\User", inversedBy="passenger")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")  
-    */
-    protected $user;
-
-    /**
-     * @{inheritdoc}
+     * Get name
+     * @return string
      */
-    public function getUser()
+    public function getName()
     {
-        return parent::getUser();
+        return $this->name;
     }
-
+    
     /**
-     * @{inheritdoc}
+     * Set name
+     * @param string $name
+     * @return \RideSocial\Bundle\EventBundle\Entity\Passenger
      */
-    public function setUser(RideSocial\Bundle\UserBundle\Entity\User $user)
+    public function setName($name)
     {
-        return parent::setUser($user);
+        $this->name = $name;
+        
+        return $this;
     }
-
+    
     /**
-     * @{inheritdoc}
-     * @ORM\ManyToOne(targetEntity="RideSocial\Bundle\EventBundle\Entity\Driver", inversedBy="passenger")
-     * @ORM\JoinColumn(name="driver_id", referencedColumnName="id")  
-    */
-    protected $driver;
-
-    /**
-     * @{inheritdoc}
-     */
-    public function getDriver()
-    {
-        return parent::getDriver();
-    }
-
-    /**
-     * @{inheritdoc}
-     */
-    public function setDriver(RideSocial\Bundle\EventBundle\Entity\Driver $driver)
-    {
-        return parent::setDriver($driver);
-    }    
-
-    /**
-     * @{inheritdoc}
-     */
-    protected $confirmed;
-
-    /**
-     * @{inheritdoc}
+     * Is confirmed
+     * @param boolean|null $confirmed
+     * @return \RideSocial\Bundle\EventBundle\Entity\Passenger|boolean
      */
     public function isConfirmed($confirmed = null)
     {
-        return parent::isConfirmed($confirmed);
+        if (null !== $confirmed && is_bool($confirmed)) {
+            $this->confirmed = $confirmed;
+            
+            return $this;
+        }
+        
+        return (bool) $this->confirmed;
     }
-
+    
     /**
-     * Set confirmed
-     * @param boolean $confirmed
+     * Get user
+     * @return type\RideSocial\Bundle\USerBundle\Entity\User
      */
-    private function setConfirmed(boolean $confirmed)
+    public function getUser()
     {
-        /** 
-         * @todo  make sure only admin || event->driver have access!
-         */
-        $this->confirmed = $confirmed;
-
+        return $this->user;
+    }
+    
+    /**
+     * Set user
+     * @param \RideSocial\Bundle\UserBundle\Entity\User $user
+     * @return \RideSocial\Bundle\EventBundle\Entity\Passenger
+     */
+    public function setUser(\RideSocial\Bundle\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+        
+        return $this;
+    }
+    
+    /**
+     * Get driver
+     * @return \RideSocial\Bundle\EventBundle\Entity\Driver
+     */
+    public function getDriver()
+    {
+        return $this->driver;
+    }
+    
+    /**
+     * Set driver
+     * @param \RideSocial\Bundle\EventBundle\Entity\Driver $driver
+     * @return \RideSocial\Bundle\EventBundle\Entity\Passenger
+     */
+    public function setDriver(\RideSocial\Bundle\EventBundle\Entity\Driver $driver)
+    {
+        $this->driver = $driver;
+        
         return $this;
     }
 }

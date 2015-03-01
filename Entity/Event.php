@@ -1,29 +1,64 @@
 <?php
 namespace RideSocial\Bundle\EventBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
+use \RideSocial\Bundle\CoreBundle\Traits\ORM\TimestampableTrait;
+use \RideSocial\Bundle\CoreBundle\Traits\ORM\BlameableTrait;
+use \RideSocial\Bundle\CoreBundle\Traits\ORM\SluggableTrait;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="event")
- * @ORM\Entity(repositoryClass="RideSocial\Bundle\EventBundle\Repository\ORM\EventRepository")
- */
-class Event extends RideSocial\Component\Event\Model\Event
+class Event
 {
-    use RideSocial\Bundle\CoreBundle\Traits\ORM\SluggableTrait;
-    use RideSocial\Bundle\CoreBundle\Traits\ORM\BlameableTrait;
-    use RideSocial\Bundle\CoreBundle\Traits\ORM\TimestampableTrait;
-    use RideSocial\Bundle\EventBundle\Traits\ORM\HasPassengersTrait;
-
+    use TimestampableTrait;
+    use BlameableTrait;
+    use SluggableTrait;
+    
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * Id
+     * @var integer
      */
     protected $id;
-
+    
+    /**
+     * Name
+     * @var string
+     */
+    protected $name;
+    
+    /**
+     * Description
+     * @var string
+     */
+    protected $description;
+    
+    /**
+     * Start
+     * @var \DateTime
+     */
+    protected $start;
+    
+    /**
+     * End
+     * @var \DateTime
+     */
+    protected $end;
+    
+    /**
+     * Fee
+     * @var float
+     */
+    protected $fee;
+    
+    /**
+     * Flyer
+     * @var string
+     */
+    protected $flyer;
+    
+    /**
+     * Venue
+     * @var \RideSocial\Bundle\LocationBundle\Entity\Venue
+     */
+    protected $venue;
+    
     /**
      * Get id
      * @return integer
@@ -32,160 +67,151 @@ class Event extends RideSocial\Component\Event\Model\Event
     {
         return $this->id;
     }
-
+    
     /**
-     * @{inheritdoc}
-     * @ORM\Column(name="name", type="string", length=150)
-     * @Assert\NotBlank()
-     */
-    protected $name;
-
-    /**
-     * @{inheritdoc}
+     * Get name
+     * @return string
      */
     public function getName()
     {
-        return parent::getName();
+        return $this->name;
     }
-
+    
     /**
-     * @{inheritdoc}
+     * Set name
+     * @param string $name
+     * @return \RideSocial\Bundle\EventBundle\Entity\Event
      */
     public function setName($name)
     {
-        return parent::setName($name);
+        $this->name = $name;
+        
+        return $this;
     }
-
+    
     /**
-     * @{inheritdoc}
-     * @ORM\ManyToOne(targetEntity="RideSocial\Bundle\LocationBundle\Entity\Venue", inversedBy="event")
-     * @ORM\JoinColumn(name="venue_id", referencedColumnName="id")
-     */
-    protected $venue = '';
-
-    /**
-     * @{inheritdoc}
-     */
-    public function getVenue()
-    {
-        return parent::getVenue();
-    }
-
-    /**
-     * @{inheritdoc}
-     */
-    public function setVenue($venue)
-    {
-        return parent::setVenue($venue);
-    }
-
-    /**
-     * @{inheritdoc}
-     * @ORM\Column(name="start", type="datetime")
-     */
-    protected $start;
-
-    /**
-     * @{inheritdoc}
-     */
-    public function getStart()
-    {
-        return parent::getStart();
-    }
-
-    /**
-     * @{inheritdoc}
-     */
-    public function setStart(\DateTime $start)
-    {
-        return parent::setStart($start);
-    }
-
-    /**
-     * @{inheritdoc}
-     * @ORM\Column(name="end", type="datetime")
-     */
-    protected $end;
-
-    /**
-     * @{inheritdoc}
-     */
-    public function getEnd()
-    {
-        return parent::getEnd();
-    }
-
-    /**
-     * @{inheritdoc}
-     */
-    public function setEnd(\DateTime $end)
-    {
-        return parent::setEnd($end);
-    }
-
-    /**
-     * @{inheritdoc}
-     * @ORM\Column(name="fee", type="decimal")
-     */
-    protected $fee="0.00";
-
-    /**
-     * @{inheritdoc}
-     */
-    public function getFee()
-    {
-        return parent::getFee();
-    }
-
-    /**
-     * @{inheritdoc}
-     */
-    public function setFee($fee)
-    {
-        return parent::setFee($fee);
-    }
-
-    /**
-     * @{inheritdoc}
-     * @ORM\Column(name="description", type="text", nullable=true)
-     */
-    protected $description;
-
-    /**
-     * @{inheritdoc}
+     * Get description
+     * @return string
      */
     public function getDescription()
     {
-        return parent::getDescription();
+        return $this->description;
     }
-
+    
     /**
-     * @{inheritdoc}
+     * Set description
+     * @param string $description
+     * @return \RideSocial\Bundle\EventBundle\Entity\Event
      */
     public function setDescription($description)
     {
-        return parent::setDescription($description);
+        $this->description = $description;
+        
+        return $this;
     }
-
+    
     /**
-     * @{inheritdoc}
-     * @ORM\Column(name="flyer", type="text", nullable=true)
+     * Get start
+     * @return \DateTime
      */
-    protected $flyer;
-
+    public function getStart()
+    {
+        return $this->start;
+    }
+    
     /**
-     * @{inheritdoc}
+     * Set start
+     * @param \DateTime $start
+     * @return \RideSocial\Bundle\EventBundle\Entity\Event
+     */
+    public function setStart(\DateTime $start)
+    {
+        $this->start = $start;
+        
+        return $this;
+    }
+    
+    /**
+     * Get end
+     * @return \DateTime
+     */
+    public function getEnd()
+    {
+        return $this->end;
+    }
+    
+    /**
+     * Set end
+     * @param \DateTime $end
+     * @return \RideSocial\Bundle\EventBundle\Entity\Event
+     */
+    public function setEnd(\DateTime $end)
+    {
+        $this->end = $end;
+        
+        return $this;
+    }
+    
+    /**
+     * Get fee
+     * @return float
+     */
+    public function getFee()
+    {
+        return $this->fee;
+    }
+    
+    /**
+     * Set fee
+     * @param float $fee
+     * @return \RideSocial\Bundle\EventBundle\Entity\Event
+     */
+    public function setFee($fee)
+    {
+        $this->fee = $fee;
+        
+        return $this;
+    }
+    
+    /**
+     * Get flyer
+     * @return string
      */
     public function getFlyer()
     {
-        return parent::getFlyer();
+        return $this->flyer;
     }
-
+    
     /**
-     * @{inheritdoc}
+     * Set flyer
+     * @param string $flyer
+     * @return \RideSocial\Bundle\EventBundle\Entity\Event
      */
     public function setFlyer($flyer)
     {
-        return parent::setFlyer($flyer);
+        $this->flyer = $flyer;
+        
+        return $this;
+    }
+    
+    /**
+     * Get venue
+     * @return \RideSocial\Bundle\LocationBundle\Entity\Venue
+     */
+    public function getVenue()
+    {
+        return $this->venue;
+    }
+    
+    /**
+     * Set venue
+     * @param \RideSocial\Bundle\LocationBundle\Entity\Venue $venue
+     * @return \RideSocial\Bundle\EventBundle\Entity\Event
+     */
+    public function setVenue(\RideSocial\Bundle\LocationBundle\Entity\Venue $venue)
+    {
+        $this->venue = $venue;
+        
+        return $this;
     }
 }

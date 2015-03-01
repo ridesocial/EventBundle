@@ -1,132 +1,154 @@
 <?php
 namespace RideSocial\Bundle\EventBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
+use \RideSocial\Bundle\CoreBundle\Traits\ORM\TimestampableTrait;
+use \RideSocial\Bundle\CoreBundle\Traits\ORM\BlameableTrait;
+use \RideSocial\Bundle\CoreBundle\Traits\ORM\SluggableTrait;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="driver")
- * @ORM\Entity(repositoryClass="RideSocial\Bundle\EventBundle\Repository\ORM\DriverRepository")
- */
-class Driver extends RideSocial\Component\Event\Model\Driver
+class Driver
 {
-    use RideSocial\Bundle\CoreBundle\Traits\ORM\SluggableTrait;
-    use RideSocial\Bundle\CoreBundle\Traits\ORM\TimestampableTrait;
-    use RideSocial\Bundle\EventBundle\Traits\ORM\HasPassengersTrait;
+    use TimestampableTrait;
+    use BlameableTrait;
+    use SluggableTrait;
+    
+    /**
+     * Id
+     * @var integer
+     */
+    protected $id;
+    
+    /**
+     * User
+     * @var \RideSocial\Bundle\USerBundle\Entity\User
+     */
+    protected $user;
+    
+    /**
+     * Event
+     * @var \RideSocial\Bundle\EventBundle\Entity\Event
+     */
+    protected $event;
+    
+    /**
+     * Vehicle
+     * @var \RideSocial\Bundle\VehicleBundle\Entity\UserVehicle
+     */
+    protected $vehicle;
+    
+    /**
+     * Reserved seats
+     * @var integer
+     */
+    protected $reservedSeats;
+    
+    /**
+     * Passengers
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    protected $passengers;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-    */
-    protected $id;
-
+     * Construct
+     */
+    public function __construct()
+    {
+        $this->reservedSeats = 1;
+        $this->passengers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
-     *
      * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-
+    
     /**
-     * @{inheritdoc}
-     * @ORM\ManyToOne(targetEntity="RideSocial\VehicleBundle\Entity\Vehicle", inversedBy="driver")
-     * @ORM\JoinColumn(name="vehicle_id", referencedColumnName="id") 
+     * Get name
+     * @return string
      */
-    protected $vehicle;
-
-    /**
-     * @{inheritdoc}
-     */
-    public function getVehicle()
+    public function getName()
     {
-        return parent::getVehicle();
+        return $this->name;
     }
-
+    
     /**
-     * @{inheritdoc}
+     * Set name
+     * @param string $name
+     * @return \RideSocial\Bundle\EventBundle\Entity\Driver
      */
-    public function setVehicle(RideSocial\Bundle\VehicleBundle\Entity\Vehicle $vehicle)
+    public function setName($name)
     {
-        return parent::setVehicle($vehicle);
+        $this->name = $name;
+        
+        return $this;
     }
-
+    
     /**
-     * @{inheritdoc}
-     * @ORM\ManyToOne(targetEntity="RideSocial\EventBundle\Entity\Event", inversedBy="driver")
-     * @ORM\JoinColumn(name="event_id", referencedColumnName="id") 
+     * Get passengers
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    protected $event;
-
-    /**
-     * @{inheritdoc}
-     */
-    public function getEvent()
+    public function getPassengers()
     {
-        return parent::getEvent();
+        return $this->passengers;
     }
-
+    
     /**
-     * @{inheritdoc}
+     * Get passenger
+     * @param string $passenger
+     * @return \RideSocial\Bundle\EventBundle\Entity\Passenger
      */
-    public function setEvent(RideSocial\Bundle\EventBundle\Entity\Event $event)
+    public function getPassenger($passenger)
     {
-        return parent::setEvent($event);
+        return $this->passengers->get($passenger);
     }
-
+    
     /**
-     * @{inheritdoc}
-     * @ORM\OneToMany(targetEntity="RideSocial\Bundle\EventBundle\Entity\Passenger", mappedBy="passenger")
+     * Hass passengers
+     * @return boolean
      */
-    protected $passengers;
-
-    /**
-    * @{inheritdoc}
-    * @ORM\Column(name="reserved_seats", type="integer", nullable=true) 
-    */
-    protected $reserved_seats = 1; //driver
-
-    /**
-     * @{inheritdoc}
-     */
-    public function setReservedSeats($seats = 1)
+    public function hasPassengers()
     {
-        return parent::setReservedSeats($seats);
+        return (0 > count($this->passengers));
     }
-
+    
     /**
-     * @{inheritdoc}
+     * Has passenger
+     * @param string $passenger
+     * @return boolean
      */
-    public function getReservedSeats()
+    public function hasPassenger($passenger)
     {
-        return parent::getReservedSeats();
+        return $this->passengers->contains($passenger);
     }
-
+    
     /**
-    * @{inheritdoc}
-    * @ORM\ManyToOne(targetEntity="RideSocial\UserBundle\Entity\User", inversedBy="users")
-    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")  
-    */
-    protected $user;
-
-    /**
-     * @{inheritdoc}
+     * Set passengers
+     * @param array $passengers
+     * @return \RideSocial\Bundle\EventBundle\Entity\Driver
      */
-    public function getUser()
+    public function setPassengers(array $passengers)
     {
-        return parent::getUser();
+        if (!$passengers instanceof \Doctrine\Common\Collections\ArrayCollection) {
+            $passengers = new \Doctrine\Common\Collections\ArrayCollection($passengers);
+        }
+        
+        $this->passengers = $passengers;
+        
+        return $this;
     }
-
+    
     /**
-     * @{inheritdoc}
+     * Add passenger
+     * @param \RideSocial\Bundle\EventBundle\Entity\Passenger $passenger
+     * @return \RideSocial\Bundle\EventBundle\Entity\Driver
      */
-    public function setUser(RideSocial\Bundle\UserBundle\Entity\User $user)
+    public function addPassenger(\RideSocial\Bundle\EventBundle\Entity\Passenger $passenger)
     {
-        return parent::setUser($user);
+        $this->passengers->add($passenger);
+        
+        return $this;
     }
 }
